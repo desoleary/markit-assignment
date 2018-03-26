@@ -1,0 +1,40 @@
+/* error message */
+.error {
+    height: 15px;
+    background-color: #FFFE36;
+    font-size: 11px;
+    border: 1px solid #E1E16D;
+    margin: 0 0 2px;
+    padding: 2px 6px;
+    color: #000;
+    display: none;
+
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius-bottomleft: 0;
+    -moz-border-radius-topleft: 0;
+    -webkit-border-bottom-left-radius: 0;
+    -webkit-border-top-left-radius: 0;
+
+    -moz-box-shadow: 0 0 6px #ddd;
+    -webkit-box-shadow: 0 0 6px #ddd;    
+}
+
+.error p {
+    margin: 0;
+    font-family: "Lucida Grande", "bitstream vera sans", "trebuchet ms", sans-serif, verdana;
+    font-size: 11px;
+    color: #000000;
+    line-height: inherit;
+}
+
+.error em {
+    border: 10px solid;
+    border-color: #FFFE36 transparent transparent;
+    bottom: -17px;
+    display: block;
+    height: 0;
+    left: 60px;
+    position: absolute;
+    width: 0;
+}

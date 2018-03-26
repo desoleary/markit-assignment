@@ -1,0 +1,63 @@
+<%= javascript_include_tag 'jquery', 'prototype', 'utils', 'RGraph/RGraph.bar', 'RGraph/RGraph.common.core', 'JQueryTools/jquery.tools.min', 'JQueryTools/validation' %>
+<%= stylesheet_link_tag 'widgets/form', 'widgets/error', 'bootstrap/bootstrap.min' %>
+<script type="text/javascript">
+    var $j = jQuery.noConflict();
+
+    $j(function () {
+        // Display Graph
+        window.onload = function () {
+            DrawGraph();
+        }
+
+        $j("#render_random_numbers_button").live('click', function (e) {
+            if (!ValidateRequiredFields()) {
+                return false;
+            }
+
+            var input = $j('#input').val();
+            $j.ajax({
+                url: "/programming_assignment/ajax_redraw_canvas",
+                type: "GET",
+                data: {'input': input},
+                async: false,
+                success: function (response) {
+                    if (response instanceof Object) {
+                        var inputs = $j('input').validator({
+                            position: 'top center',
+                            message: '<div><em/></div>'
+                        });
+
+                        inputs.data("validator").invalidate(response);
+                    } else {
+                        RGraph.ObjectRegistry.Clear();
+                        DrawGraph();
+                    }
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    Utils.AlertOfException(textStatus, errorThrown);
+                }
+            });
+            return true;
+        });
+    });
+
+    function ValidateRequiredFields() {
+        var inputs = $j('input').validator({
+            position: 'top center',
+            message: '<div><em/></div>'
+        });
+
+        var inputInvalid = inputs.data("validator").checkValidity();
+
+        /* Highlight input fields marked as invalid */
+        $j(".invalid").css({borderColor: 'red'}).focus(function () {
+            $j(".invalid").css({borderColor: '#444'});
+        });
+        return inputInvalid;
+    }
+
+</script>
+
+<div id="canvas">
+  <%= render :partial => 'canvas' %>
+</div>

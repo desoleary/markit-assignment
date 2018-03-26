@@ -1,0 +1,56 @@
+<script type="text/javascript">
+    function DrawGraph() {
+        var bar = new RGraph.Bar('random_numbers_canvas', [<%= @assignment.bins %>]);
+        bar.Set('colors', ['#1CC791']);
+        bar.Set('labels', <%= @assignment.labels %>);
+//          bar7.Set('ylabels.count', 3);
+//          bar7.Set('numyticks', 6);
+        bar.Set('background.grid.autofit.numhlines', 3);
+        bar.Set('background.grid.vlines', false);
+        bar.Set('background.grid.border', false);
+        bar.Set('hmargin', 5);
+// New, more compact, "DOM1-esque", style of adding events
+        bar.ondraw = function (obj) {
+            var len = obj.coords.length;
+            for (var i = 0; i < len; ++i) {
+                var x = obj.coords[i][0];
+                var y = obj.coords[i][1];
+                var w = obj.coords[i][2] / 2;
+                var h = obj.coords[i][3];
+                obj.context.fillStyle = 'rgba(255,255,255,0.15)';
+                obj.context.fillRect(x, y, w, h)
+            }
+        }
+        bar.Draw();
+    }
+
+</script>
+
+<style>
+
+        /* error message */
+    .error {
+        z-index: 10000; /* Displays rhe error message within the overlay layer */
+    }
+
+    body {
+        margin: 20px;
+    }
+</style>
+
+<h1>Programming Assignment</h1>
+
+<canvas id="random_numbers_canvas" height="250" width="1200">[No canvas support]</canvas>
+
+<p>Text output: <span class="help-block"><%= @assignment.randomize_list_str %></span></p>
+
+<p>First half text output: <span class="help-block"><%= @assignment.first_half_str %></span></p>
+
+<br/>
+
+<p class="random">
+  <label class="form-horizontal">Input:
+    <input type="number" id="input" name="input" min="20" required="required" value="<%= @assignment.input %>">&nbsp;&nbsp;&nbsp;
+    <button class="submit btn btn-primary" type="button" id="render_random_numbers_button">Submit</button>
+  </label>
+</p>
